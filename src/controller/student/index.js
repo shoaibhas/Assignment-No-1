@@ -35,18 +35,18 @@ const StudentController = {
       return res.status(404).json({ message: "something bad happening", err });
     }
   },
-  //   search: async (req, res) => {
-  //     try {
-  //       const firstName = req.body.firstName;
-  //       const student = studentmodel.findAll({ firstName });
-  //       if (!student) {
-  //         return res.status(404).json({ message: "student not searches" });
-  //       }
-  //       res.json({ student });
-  //     } catch (err) {
-  //       return res.status(200).json({ message: "something bad happening", err });
-  //     }
-  //   },
+  search: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const student = await studentmodel.findOne({ where: { id } });
+      if (!student) {
+        return res.status(404).json({ message: "student not searches" });
+      }
+      res.json({ student });
+    } catch (err) {
+      return res.status(200).json({ message: "something bad happening", err });
+    }
+  },
   delete: async (req, res) => {
     try {
       const { id } = req.params;

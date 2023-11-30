@@ -6,6 +6,7 @@ const studentRouter = Router();
 studentRouter.post("/create", StudentController.create);
 studentRouter.get("/all", StudentController.getall);
 studentRouter.get("/:id", StudentController.getone);
+studentRouter.get("/", StudentController.search);
 studentRouter.delete("/:id", StudentController.delete);
 studentRouter.put("/:id", StudentController.update);
 // studentRouter.get("/search", StudentController.search);

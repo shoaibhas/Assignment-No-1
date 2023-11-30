@@ -6,10 +6,6 @@ const productmodel = sequelize.define("products", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  type: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
   expiryDate: {
     type: DataTypes.STRING,
     allowNull: true,

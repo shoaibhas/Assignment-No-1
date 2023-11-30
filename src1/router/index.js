@@ -1,0 +1,18 @@
+import { Router } from "express";
+import postRouter from "./post/index.js";
+import likeRouter from "./like/index.js";
+import commentRouter from "./comment/index.js";
+import userRouter from "./user/index.js";
+import followerRouter from "./follower/index.js";
+import userFollowerRouter from "./userfollower/index.js";
+import UserLoginRouter from "./userlogin/index.js";
+const allRouterss = Router();
+allRouterss.use("/post", postRouter);
+allRouterss.use("/comments", commentRouter);
+allRouterss.use("/user", userRouter);
+allRouterss.use("/follower", followerRouter);
+allRouterss.use("/userfollower", userFollowerRouter);
+allRouterss.use("/", UserLoginRouter);
+// allRouterss.use("/like", likeRouter);
+// allRouterss.use("/all", allfileRouter);
+export default allRouterss;

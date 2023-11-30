@@ -1,0 +1,3 @@
+const productValidator={
+    create:()=>{}
+}

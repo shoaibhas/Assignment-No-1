@@ -1,5 +1,6 @@
 import sequelize from "../../db/config.js";
 import { DataTypes } from "sequelize";
+import coursemodel from "./course.js";
 
 const institutemodel = sequelize.define("institute", {
   instituteName: {
@@ -19,4 +20,6 @@ const institutemodel = sequelize.define("institute", {
     allowNull: true,
   },
 });
+institutemodel.hasMany(coursemodel);
+coursemodel.belongsTo(institutemodel);
 export default institutemodel;

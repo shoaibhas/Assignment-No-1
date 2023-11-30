@@ -1,20 +1,52 @@
+import { json } from "sequelize";
 import productmodel from "../../Model/product/product.js";
+import unitmodel from "../../Model/product/unit.js";
+
 const ProductController = {
   //create product data
+
   create: async (req, res) => {
-    try {
-      const { productName, type, expiryDate, price } = req.body;
-      const product = await productmodel.create({
-        productName,
-        type,
-        expiryDate,
-        price,
-      });
-      return res.status(201).json({ message: "product created", product });
-    } catch (err) {
-      return res.status(201).json({ message: "something bad happening", err });
-    }
+    const { productName, expiryDate, price } = req.body;
+    // const { productName, expiryDate, price } = req.body;
+    // const unit = await unitmodel.create({
+    //   unitName: "litre",
+    //   quantity: "30",
+    // });
+    const product = await productmodel.create({
+      productName,
+      expiryDate,
+      price,
+      // productName: "streplis",
+      // expiryDate: "2030",
+      // price: "100",
+      // unitId: 1,
+    });
+    res.json({
+      message: "created",
+      product,
+    });
+    // // const data = await productmodel.findByPk(2);
+    // const data = await unitmodel.findByPk(1, {
+    //   include: [productmodel],
+    //   logging: true,
+    // });
+    // res.json({ message: "product created", data });
   },
+
+  // create: async (req, res) => {
+  //   try {
+  //     const { productName, type, expiryDate, price } = req.body;
+  //     const product = await productmodel.create({
+  //       productName,
+  //       type,
+  //       expiryDate,
+  //       price,
+  //     });
+  //     return res.status(201).json({ message: "product created", product });
+  //   } catch (err) {
+  //     return res.status(201).json({ message: "something bad happening", err });
+  //   }
+  // },
   getall: async (req, res) => {
     const product = await productmodel.findAll({
       where: { expiryDate: "1055" },

@@ -1,38 +1,61 @@
+import coursemodel from "../../Model/institute/course.js";
 import institutemodel from "../../Model/institute/institute.js";
 const InstituteController = {
   //create institute data
+
   create: async (req, res) => {
-    try {
-      const { instituteName, courses, classes, location } = req.body;
-      const institute = await institutemodel.create({
-        instituteName,
-        courses,
-        classes,
-        location,
-      });
-      return res.status(201).json({ message: "institute created", institute });
-    } catch (err) {
-      return res.status(201).json({ message: "something bad happening", err });
-    }
+    // try {
+    // const { instituteName, courses, classes, location } = req.body;
+    const course = await coursemodel.create({
+      courseName: "database",
+      coursesCredit: "4",
+      classes: "112",
+      instituteId: 3,
+    });
+    // const institute = await institutemodel.create({
+    //   instituteName: "uog",
+    //   courses: "cs,bba",
+    //   classes: "112",
+    //   location: "dsgds6t6e",
+    // });
+    res.json({ message: "data entered" });
+    //   return res.status(201).json({ message: "institute created", institute });
+    // } catch (err) {
+    //   return res.status(201).json({ message: "something bad happening", err });
+    // }
   },
-  getall: async (req, res) => {
-    const institute = await institutemodel.findAll();
-    res.json({ institute });
-  },
-  getone: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const institute = await institutemodel.findOne({
-        where: { id },
-      });
-      if (!institute) {
-        return res.status(404).json({ message: "institute not found" });
-      }
-      res.json({ institute });
-    } catch (err) {
-      return res.status(404).json({ message: "something bad happening", err });
-    }
-  },
+  // create: async (req, res) => {
+  //   try {
+  //     const { instituteName, courses, classes, location } = req.body;
+  //     const institute = await institutemodel.create({
+  //       instituteName,
+  //       courses,
+  //       classes,
+  //       location,
+  //     });
+  //     return res.status(201).json({ message: "institute created", institute });
+  //   } catch (err) {
+  //     return res.status(201).json({ message: "something bad happening", err });
+  //   }
+  // },
+  // getall: async (req, res) => {
+  //   const institute = await institutemodel.findAll();
+  //   res.json({ institute });
+  // },
+  // getone: async (req, res) => {
+  //   try {
+  //     const { id } = req.params;
+  //     const institute = await institutemodel.findOne({
+  //       where: { id },
+  //     });
+  //     if (!institute) {
+  //       return res.status(404).json({ message: "institute not found" });
+  //     }
+  //     res.json({ institute });
+  //   } catch (err) {
+  //     return res.status(404).json({ message: "something bad happening", err });
+  //   }
+  // },
   //   search: async (req, res) => {
   //     try {
   //       const instituteName = req.body.instituteName;
