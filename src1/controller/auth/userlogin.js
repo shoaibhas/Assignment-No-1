@@ -1,7 +1,7 @@
 import { compare, hash } from "bcrypt";
 import Jwt from "jsonwebtoken";
 import UserLoginModel from "../../model/userlogin/user.js";
-
+import LoginEmail from "../../mails/email.js";
 const UserLoginController = {
   register: async (req, res) => {
     try {
@@ -36,21 +36,38 @@ const UserLoginController = {
       const comparepassword = await compare(password, user.password);
       console.log(comparepassword);
       if (!comparepassword) {
-        res.status(401).json({ message: "invalid .." });
+        return res.status(401).json({ message: "invalid .." });
       }
 
       //practice for json token
-      const u = {
+      const data = {
         id: user.id,
         email: user.email,
+        // password: user.password,
+        // text: "test",
       };
-      const token1 = Jwt.sign(u, process.env.JSON_SECRET, {
+      const token = Jwt.sign(data, process.env.JSON_SECRET, {
         expiresIn: "1h",
       });
 
+      LoginEmail({
+        from: "shoaibhassan",
+        to: user.email,
+        subject: "Login Notification",
+        text: "We detected a new login ",
+      });
+
+      req.session.token = token;
+      req.session.user = user;
+      req.session.save();
+
+      // req.session.token = token;
+      // req.session.user = data;
+      // req.session.save();
       return res.status(200).json({
         message: "User login",
-        // token1,
+        token,
+        data,
       });
     } catch (error) {
       console.log({ message: "something bad happening", error });
