@@ -4,8 +4,8 @@ const likeRouter = Router();
 likeRouter.post("/", likeController.create);
 likeRouter.get("/", likeController.getall);
 likeRouter.get("/sample", likeController.sample);
-likeRouter.get("/one", likeController.getone);
-likeRouter.delete("/", likeController.delete);
-likeRouter.put("/", likeController.update);
+likeRouter.get("/:id", likeController.getone);
+likeRouter.delete("/:id", likeController.delete);
+likeRouter.put("/:id", likeController.update);
 
 export default likeRouter;

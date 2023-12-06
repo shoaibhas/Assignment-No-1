@@ -5,6 +5,7 @@ import userModel from "../user/user.js";
 
 import commentModel from "../comments/comment.js";
 import followerModel from "../follower/follower.js";
+import UserLoginModel from "../userlogin/user.js";
 const postModel = sequelizes.define("posts", {
   postType: {
     type: DataTypes.STRING,
@@ -15,14 +16,14 @@ postModel.hasMany(likeModel);
 likeModel.belongsTo(postModel);
 postModel.hasMany(commentModel);
 commentModel.belongsTo(postModel);
-userModel.hasMany(commentModel);
-commentModel.belongsTo(userModel);
-userModel.hasOne(likeModel);
+UserLoginModel.hasMany(commentModel);
+commentModel.belongsTo(UserLoginModel);
+UserLoginModel.hasOne(likeModel);
 
-likeModel.belongsTo(userModel);
+likeModel.belongsTo(UserLoginModel);
 
-userModel.hasMany(postModel);
-postModel.belongsTo(userModel);
-// followerModel.hasMany(postModel);
-// postModel.belongsTo(followerModel);
+UserLoginModel.hasMany(postModel);
+postModel.belongsTo(UserLoginModel);
+followerModel.hasMany(postModel);
+postModel.belongsTo(followerModel);
 export default postModel;

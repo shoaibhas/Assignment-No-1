@@ -29,7 +29,7 @@ const followerController = {
   },
   getone: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const follower2 = await followerModel.findOne({
         where: { id },
       });
@@ -47,7 +47,7 @@ const followerController = {
   },
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const follower = await followerModel.findOne({ where: { id } });
       if (!follower) {
         return res.status(201).json({ message: "follower not found" });
@@ -60,13 +60,13 @@ const followerController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
-      const { emoji } = req.body;
+      const { id } = req.params;
+      const { followerName } = req.body;
       const follower = await followerModel.findOne({ where: { id } });
       if (!follower) {
         return res.status(201).json({ message: "follower not found" });
       }
-      follower.emoji = emoji;
+      follower.followerName = followerName;
       await follower.save();
       return res.json({ message: "update sucessfull", follower });
     } catch (err) {

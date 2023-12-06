@@ -1,16 +1,16 @@
 import commentModel from "../../model/comments/comment.js";
 import likeModel from "../../model/like/like.js";
 import postModel from "../../model/post/post.js";
-import userModel from "../../model/user/user.js";
 
 const postController = {
   create: async (req, res) => {
     try {
-      const { postType, userId, likeId } = req.body;
+      const { postType, user, followerId } = req.body;
       const post = await postModel.create({
         postType,
-        userId,
-        likeId,
+        userloginId: req.session.user?.id,
+        // userloginId: req.session.userlogin?.id,
+        followerId,
       });
       return res.status(201).json({ message: "post created", post });
     } catch (err) {
@@ -19,7 +19,7 @@ const postController = {
   },
 
   post: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await postModel.findByPk(id, {
       //  include: [likeModel],
     });
@@ -27,23 +27,23 @@ const postController = {
   },
   like: async (req, res) => {
     console.log("asbjasjbasjdbasjhd");
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await postModel.findByPk(id, {
-      include: [{ model: likeModel, include: [userModel] }],
+      include: [{ model: likeModel, include: [UserLoginModel] }],
     });
     res.json(show);
   },
   Comment: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await postModel.findByPk(id, {
-      include: [{ model: commentModel, include: [userModel] }],
+      include: [{ model: commentModel, include: [UserLoginModel] }],
     });
     res.json(show);
   },
   users: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await postModel.findByPk(id, {
-      include: [userModel],
+      include: [UserLoginModel],
     });
     res.json(show);
   },
@@ -73,7 +73,7 @@ const postController = {
   },
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const post = await postModel.findOne({ where: { id } });
       if (!post) {
         return res.status(201).json({ message: "post not found" });
@@ -86,13 +86,14 @@ const postController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
-      const { postType } = req.body;
+      const { id } = req.params;
+      const { postType, followerId } = req.body;
       const post = await postModel.findOne({ where: { id } });
       if (!post) {
         return res.status(201).json({ message: "post not found" });
       }
       post.postType = postType;
+      post.followerId = followerId;
       await post.save();
       return res.json({ message: "update sucessfull", post });
     } catch (err) {

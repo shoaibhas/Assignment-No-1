@@ -1,9 +1,9 @@
 import { Router } from "express";
 import followerController from "../../controller/follower/follower.js";
 const followerRouter = Router();
-followerRouter.post("/add", followerController.create);
-followerRouter.get("/followers", followerController.getall);
-followerRouter.get("/follower", followerController.getone);
-followerRouter.put("/del", followerController.delete);
-followerRouter.get("/update", followerController.update);
+followerRouter.post("/", followerController.create);
+followerRouter.get("/", followerController.getall);
+followerRouter.get("/:id", followerController.getone);
+followerRouter.delete("/:id", followerController.delete);
+followerRouter.put("/:id", followerController.update);
 export default followerRouter;

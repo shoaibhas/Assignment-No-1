@@ -1,12 +1,12 @@
 import { Router } from "express";
 import commentController from "../../controller/comment/index.js";
 const commentRouter = Router();
-commentRouter.post("/a", commentController.create);
-commentRouter.get("/a", commentController.getall);
+commentRouter.post("/", commentController.create);
+commentRouter.get("/", commentController.getall);
 // commentRouter.get("/postid", commentController.post);
 // commentRouter.get("/postid/like", commentController.like);
-commentRouter.get("/b", commentController.getone);
-commentRouter.delete("/a", commentController.delete);
-commentRouter.put("/a", commentController.update);
+commentRouter.get("/:id", commentController.getone);
+commentRouter.delete("/:id", commentController.delete);
+commentRouter.put("/:id", commentController.update);
 
 export default commentRouter;

@@ -3,10 +3,13 @@ import commentModel from "../../model/comments/comment.js";
 const commentController = {
   create: async (req, res) => {
     try {
-      const { comment, postId } = req.body;
+      const { comment, postId, userloginId } = req.body;
+      // const { postId } = req.params;
+
       const comment1 = await commentModel.create({
         postId,
         comment,
+        userloginId,
       });
       return res.status(201).json({ message: "comment created", comment1 });
     } catch (err) {
@@ -30,7 +33,7 @@ const commentController = {
   },
   getone: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const comment2 = await commentModel.findOne({
         where: { id },
       });
@@ -46,7 +49,7 @@ const commentController = {
   },
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const comment = await commentModel.findOne({ where: { id } });
       if (!comment) {
         return res.status(201).json({ message: "comment not found" });
@@ -59,15 +62,17 @@ const commentController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
-      const { emoji } = req.body;
-      const comment = await commentModel.findOne({ where: { id } });
-      if (!comment) {
+      const { id } = req.params;
+      const { comment, postId, userloginId } = req.body;
+      const comment1 = await commentModel.findOne({ where: { id } });
+      if (!comment1) {
         return res.status(201).json({ message: "comment not found" });
       }
-      comment.emoji = emoji;
-      await comment.save();
-      return res.json({ message: "update sucessfull", comment });
+      comment1.comment = comment;
+      comment1.postId = postId;
+      comment1.userloginId = userloginId;
+      await comment1.save();
+      return res.json({ message: "update sucessfull", comment1 });
     } catch (err) {
       console.log("something bad");
     }

@@ -4,10 +4,11 @@ import userModel from "../../model/user/user.js";
 const likeController = {
   create: async (req, res) => {
     try {
-      const { emoji, userId } = req.body;
+      const { emoji, userloginId, postId } = req.body;
       const like = await likeModel.create({
         emoji,
-        userId,
+        userloginId,
+        postId,
       });
       return res.status(201).json({ message: "like created", like });
     } catch (err) {
@@ -31,7 +32,7 @@ const likeController = {
   },
   getone: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const like2 = await likeModel.findOne({
         where: { id },
       });
@@ -47,7 +48,7 @@ const likeController = {
   },
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const like = await likeModel.findOne({ where: { id } });
       if (!like) {
         return res.status(201).json({ message: "like not found" });
@@ -60,17 +61,19 @@ const likeController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
-      const { emoji } = req.body;
+      const { id } = req.params;
+      const { emoji, userloginId, postId } = req.body;
       const like = await likeModel.findOne({ where: { id } });
       if (!like) {
         return res.status(201).json({ message: "like not found" });
       }
       like.emoji = emoji;
+      like.userloginId = userloginId;
+      like.postId = postId;
       await like.save();
       return res.json({ message: "update sucessfull", like });
     } catch (err) {
-      console.log("something bad");
+      console.log(" bad");
     }
   },
 };

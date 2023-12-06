@@ -3,6 +3,7 @@ import followerModel from "../../model/follower/follower.js";
 import likeModel from "../../model/like/like.js";
 import postModel from "../../model/post/post.js";
 import userModel from "../../model/user/user.js";
+import commentModel from "../../model/comments/comment.js";
 
 const userController = {
   create: async (req, res) => {
@@ -25,24 +26,41 @@ const userController = {
     }
   },
   posts: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await userModel.findByPk(id, {
       include: [postModel],
     });
     res.json(show);
   },
   follower: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const show = await userModel.findByPk(id, {
       include: [followerModel],
     });
     res.json(show);
   },
-  post: async (req, res) => {
-    const { id } = req.body;
+  usertofollowerpost: async (req, res) => {
+    const { id } = req.params;
     const show = await userModel.findByPk(id, {
       include: [
-        { model: followerModel, include: [postModel] },
+        { model: followerModel, include: postModel },
+        // followerModel.findAll({
+        //   where: {
+        //     userId: { [Op.eq]: 1 },
+        //   },
+        // }),
+      ],
+    });
+    res.json(show);
+  },
+  followertouserpost: async (req, res) => {
+    const { id } = req.params;
+    const show = await userModel.findByPk(id, {
+      include: [
+        {
+          model: followerModel,
+          include: [{ model: userModel, include: postModel }],
+        },
         // followerModel.findAll({
         //   where: {
         //     userId: { [Op.eq]: 1 },
@@ -53,16 +71,24 @@ const userController = {
     res.json(show);
   },
   likes: async (req, res) => {
-    const { id } = req.body;
-    const show = await postModel.findByPk(id, {
-      include: [likeModel],
-      //  include: [likeModel],
+    const { id } = req.params;
+    const show = await userModel.findByPk(id, {
+      include: [postModel],
+      include: [{ model: postModel, include: likeModel }],
+    });
+    res.json(show);
+  },
+  comment: async (req, res) => {
+    const { id } = req.params;
+    const show = await userModel.findByPk(id, {
+      include: [postModel],
+      include: [{ model: postModel, include: commentModel }],
     });
     res.json(show);
   },
   getone: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const user2 = await userModel.findOne({
         where: { id },
       });
@@ -78,7 +104,7 @@ const userController = {
   },
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const user = await userModel.findOne({ where: { id } });
       if (!user) {
         return res.status(201).json({ message: "user not found" });
@@ -91,7 +117,7 @@ const userController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const { userName } = req.body;
       const user = await userModel.findOne({ where: { id } });
       if (!user) {

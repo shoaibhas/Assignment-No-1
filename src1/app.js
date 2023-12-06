@@ -6,6 +6,7 @@ import Session from "express-session";
 import SequelizeStore from "connect-session-sequelize";
 import allRouterss from "./router/index.js";
 import AuthenticateMiddleware from "./middleware/authentication.js";
+const envDATA = process.env;
 const Port1 = process.env.PORT;
 const app = express();
 connectDB();
@@ -16,7 +17,7 @@ const mySequelizeStore1 = new mySequelizeStore({
 
 app.use(
   Session({
-    secret: "fddd",
+    secret: envDATA.SECRET_SESSION,
     store: mySequelizeStore1,
     // expires:new Date(Date.now() + (30 * 86400 * 1000)),
     saveUninitialized: false,

@@ -61,7 +61,7 @@ const userFollowerController = {
   //   res.json({ message: "data get", data1 });
   // },
   user: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const data1 = await userModel.findByPk(id, {
       // include: [followerModel],
       // include: [{ model: actormodel, attributes: ["firstName", "lastName"] }],
@@ -70,7 +70,7 @@ const userFollowerController = {
     res.json({ message: "data get", data1 });
   },
   follower: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const data1 = await userModel.findByPk(id, {
       include: [followerModel],
       //  include: [{ model: followerModel, attributes: ["followerName"] }],
@@ -79,7 +79,7 @@ const userFollowerController = {
     res.json({ message: "data get", data1 });
   },
   user1: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const data1 = await followerModel.findByPk(id, {
       //  include: [postModel],
       //  include: [{ model: followerModel, attributes: ["followerName"] }],
@@ -88,7 +88,7 @@ const userFollowerController = {
     res.json({ message: "data get", data1 });
   },
   follower1: async (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     const data1 = await followerModel.findByPk(id, {
       include: [userModel],
       //  include: [{ model: followerModel, attributes: ["followerName"] }],
@@ -99,7 +99,7 @@ const userFollowerController = {
 
   delete: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const user = await userFollowerModel.findOne({ where: { id } });
       if (!user) {
         return res.status(201).json({ message: " not found" });
@@ -112,7 +112,7 @@ const userFollowerController = {
   },
   update: async (req, res) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const { userId, followerId } = req.body;
       const user = await userFollowerModel.findOne({ where: { id } });
       if (!user) {

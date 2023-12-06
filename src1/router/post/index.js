@@ -1,14 +1,14 @@
 import { Router } from "express";
 import postController from "../../controller/post/index.js";
 const postRouter = Router();
-postRouter.post("/adds", postController.create);
-postRouter.get("/post", postController.getall);
-postRouter.get("/postid", postController.post);
-postRouter.get("/postid/like", postController.like);
-postRouter.get("/postid/comment", postController.Comment);
-postRouter.get("/postid/users", postController.users);
+postRouter.post("/", postController.create);
+postRouter.get("/", postController.getall);
+postRouter.get("/:id", postController.post);
+postRouter.get("/:id/like", postController.like);
+postRouter.get("/:id/comment", postController.Comment);
+postRouter.get("/:id/user", postController.users);
 // postRouter.get("/post", postController.getone);
-postRouter.delete("/del", postController.delete);
-postRouter.put("/update", postController.update);
+postRouter.delete("/:id", postController.delete);
+postRouter.put("/:id", postController.update);
 
 export default postRouter;
